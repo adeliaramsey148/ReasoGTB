@@ -14,7 +14,6 @@ pub fn ts_lang_support(feat: TsFeature) -> Vec<String> {
         .map(|f| {
             // .../helix/runtime/queries/python/highlights.scm
             let tail = f.strip_prefix(&queries_dir).unwrap(); // python/highlights.scm
-            let lang = tail.components().next().unwrap(); // python
             lang.as_os_str().to_string_lossy().to_string()
         })
         .collect()
@@ -26,7 +25,6 @@ pub fn find_files(dir: &Path, filename: &str) -> Vec<PathBuf> {
         .unwrap()
         .filter_map(|entry| {
             let path = entry.ok()?.path();
-            if path.is_dir() {
                 Some(find_files(&path, filename))
             } else if path.file_name()?.to_string_lossy() == filename {
                 Some(vec![path])
